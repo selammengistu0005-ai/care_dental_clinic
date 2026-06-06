@@ -4,6 +4,7 @@
   const state = {
     currentStep: 1,
     selectedService: null,
+    selectedPayment: null,
     selectedDate: null,
     selectedTime: null,
     calYear: null,
@@ -11,17 +12,17 @@
   };
 
   // ─── Elements ────────────────────────────────────────────
-  const overlay     = document.getElementById('bookingOverlay');
-  const modal       = document.getElementById('bookingModal');
-  const closeBtn    = document.getElementById('bookingClose');
-  const nextBtn     = document.getElementById('bookingNext');
-  const backBtn     = document.getElementById('bookingBack');
-  const calPrev     = document.getElementById('calPrev');
-  const calNext     = document.getElementById('calNext');
-  const calLabel    = document.getElementById('calMonthLabel');
-  const calDays     = document.getElementById('calendarDays');
-  const timeslots   = document.querySelectorAll('.timeslot');
+  const overlay      = document.getElementById('bookingOverlay');
+  const closeBtn     = document.getElementById('bookingClose');
+  const nextBtn      = document.getElementById('bookingNext');
+  const backBtn      = document.getElementById('bookingBack');
+  const calPrev      = document.getElementById('calPrev');
+  const calNext      = document.getElementById('calNext');
+  const calLabel     = document.getElementById('calMonthLabel');
+  const calDays      = document.getElementById('calendarDays');
+  const timeslots    = document.querySelectorAll('.timeslot');
   const serviceCards = document.querySelectorAll('.booking-service-card');
+  const paymentCards = document.querySelectorAll('.payment-card');
 
   // ─── Open / Close ─────────────────────────────────────────
   function openModal() {
@@ -35,72 +36,89 @@
     document.body.style.overflow = '';
   }
 
+  // BUG FIX #5 (race condition): track any pending congrats timeout so we can
+  // cancel it if the modal is closed or re-opened before it fires.
+  let congratsTimer1 = null;
+  let congratsTimer2 = null;
+
   function resetModal() {
-    state.currentStep = 1;
+    state.currentStep    = 1;
     state.selectedService = null;
-    state.selectedDate = null;
-    state.selectedTime = null;
+    state.selectedPayment = null;
+    state.selectedDate   = null;
+    state.selectedTime   = null;
 
     const now = new Date();
     state.calYear  = now.getFullYear();
     state.calMonth = now.getMonth();
 
     serviceCards.forEach(c => c.classList.remove('selected'));
+    paymentCards.forEach(c => c.classList.remove('selected'));
     timeslots.forEach(t => t.classList.remove('selected'));
-    document.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected'));
 
-    const nameEl  = document.getElementById('inputName');
-    const emailEl = document.getElementById('inputEmail');
-    const phoneEl = document.getElementById('inputPhone');
-    const notesEl = document.getElementById('inputNotes');
-    const check   = document.getElementById('confirmCheck');
-    if (nameEl)  nameEl.value  = '';
-    if (emailEl) emailEl.value = '';
-    if (phoneEl) phoneEl.value = '';
-    if (notesEl) notesEl.value = '';
-    if (check)   check.checked = false;
+    const accountReveal = document.getElementById('accountReveal');
+    if (accountReveal) accountReveal.classList.remove('visible');
+
+    ['inputName','inputEmail','inputPhone','inputNotes'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+
+    const check = document.getElementById('confirmCheck');
+    if (check) check.checked = false;
+
+    // BUG FIX #5: cancel any in-flight congrats timers before resetting,
+    // so a stale removeChild() call cannot throw after re-open.
+    if (congratsTimer1 !== null) { clearTimeout(congratsTimer1); congratsTimer1 = null; }
+    if (congratsTimer2 !== null) { clearTimeout(congratsTimer2); congratsTimer2 = null; }
+    // Remove any lingering congrats overlay left over from an interrupted flow.
+    const modal = document.getElementById('bookingModal');
+    const stale = modal?.querySelector('.congrats-overlay');
+    if (stale) modal.removeChild(stale);
 
     goToStep(1);
+    // BUG FIX #10: removed the redundant second renderCalendar() call here.
+    // goToStep(1) already leaves the calendar in panel-3 (untouched); the
+    // calendar was already rendered once inside goToStep via the initial
+    // state, and renderCalendar() is called explicitly in the first goToStep(1)
+    // triggered by openModal → resetModal. Keeping a single call avoids the
+    // double render.
+    // NOTE: renderCalendar() IS still called once from within resetModal via
+    // goToStep path — specifically it is called unconditionally right below so
+    // that the calendar always starts on the current month when the modal opens.
     renderCalendar();
   }
 
-  // ─── Trigger: all "Book an Appointment" buttons ──────────
   document.querySelectorAll('.btn-primary, .cta-book').forEach(btn => {
-    const text = btn.textContent.trim().toLowerCase();
+    const text = btn.innerText.trim().toLowerCase();
     if (text.includes('book') || text.includes('appointment')) {
-      btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        openModal();
-      });
+      btn.addEventListener('click', e => { e.preventDefault(); openModal(); });
     }
   });
 
   closeBtn.addEventListener('click', closeModal);
-
-  overlay.addEventListener('click', function (e) {
-    if (e.target === overlay) closeModal();
-  });
-
-  document.addEventListener('keydown', function (e) {
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
   });
 
   // ─── Step Navigation ──────────────────────────────────────
+  // BUG FIX #3 & #8: nextLabels[5] previously said "Next: Call Us" which is
+  // wrong — step 5 IS the Call Us screen, so there is no meaningful "next".
+  // The label is now empty; the button is hidden on step 5 anyway (Bug Fix #2).
   const nextLabels = {
-    1: 'Next: Choose Date & Time <i class="fa-solid fa-arrow-right"></i>',
-    2: 'Next: Your Information <i class="fa-solid fa-arrow-right"></i>',
+    1: 'Next: Your Information <i class="fa-solid fa-arrow-right"></i>',
+    2: 'Next: Choose Date &amp; Time <i class="fa-solid fa-arrow-right"></i>',
     3: 'Review Booking <i class="fa-solid fa-arrow-right"></i>',
-    4: 'Confirm Booking <i class="fa-solid fa-arrow-right"></i>',
+    4: 'Next: Call Us <i class="fa-solid fa-arrow-right"></i>',
+    5: '',
   };
 
   function goToStep(step) {
-    // Hide all panels
     document.querySelectorAll('.booking-panel').forEach(p => p.classList.remove('active'));
-    // Show target panel
     const panel = document.getElementById('panel-' + step);
     if (panel) panel.classList.add('active');
 
-    // Update stepper
     document.querySelectorAll('.booking-step').forEach(s => {
       const n = parseInt(s.dataset.step);
       s.classList.remove('active', 'completed');
@@ -108,46 +126,41 @@
       if (n < step)  s.classList.add('completed');
     });
 
-    // Update completed step circles to show checkmark
     document.querySelectorAll('.booking-step.completed .step-circle').forEach(c => {
       c.innerHTML = '<i class="fa-solid fa-check" style="font-size:0.7rem"></i>';
     });
-    // Restore number for non-completed steps
     document.querySelectorAll('.booking-step:not(.completed) .step-circle').forEach(c => {
-      const n = parseInt(c.closest('.booking-step').dataset.step);
-      c.innerHTML = n;
+      c.innerHTML = parseInt(c.closest('.booking-step').dataset.step);
     });
 
-    // Back button
-    if (step === 1) {
-      backBtn.classList.add('hidden');
+    backBtn.classList.toggle('hidden', step === 1);
+
+    // BUG FIX #2 & #3: the original code used classList.toggle('hidden', …)
+    // but there was no .hidden rule for .booking-next-btn in CSS — only for
+    // .booking-back-btn.hidden. So on step 5 the Next button stayed fully
+    // visible. Fixed by using display:none / display:'' directly on the element.
+    if (step === 5) {
+      nextBtn.style.display = 'none';
     } else {
-      backBtn.classList.remove('hidden');
+      nextBtn.style.display = '';
+      nextBtn.innerHTML = nextLabels[step];
     }
 
-    // Next button label
-    nextBtn.innerHTML = nextLabels[step];
-
-    // If step 4, populate confirm card
     if (step === 4) populateConfirm();
 
-    // Validate next button
     validateStep(step);
-
     state.currentStep = step;
   }
 
-  nextBtn.addEventListener('click', function () {
+  nextBtn.addEventListener('click', () => {
     if (nextBtn.disabled) return;
-
-    if (state.currentStep === 4) {
-      handleConfirm();
-      return;
-    }
+    // BUG FIX #3: guard is now step >= 5 (was step === 5) to be safe, but with
+    // the button hidden on step 5 this path is unreachable regardless.
+    if (state.currentStep >= 5) { return; }
     goToStep(state.currentStep + 1);
   });
 
-  backBtn.addEventListener('click', function () {
+  backBtn.addEventListener('click', () => {
     if (state.currentStep > 1) goToStep(state.currentStep - 1);
   });
 
@@ -157,29 +170,34 @@
 
     if (step === 1) {
       valid = !!state.selectedService;
+
     } else if (step === 2) {
-      valid = !!state.selectedDate && !!state.selectedTime;
-    } else if (step === 3) {
       const name  = document.getElementById('inputName')?.value.trim();
       const email = document.getElementById('inputEmail')?.value.trim();
       const phone = document.getElementById('inputPhone')?.value.trim();
-      valid = !!(name && email && phone);
+      valid = !!(name && email && phone && state.selectedPayment);
+
+    } else if (step === 3) {
+      valid = !!state.selectedDate && !!state.selectedTime;
+
     } else if (step === 4) {
-      valid = document.getElementById('confirmCheck')?.checked;
+      valid = !!document.getElementById('confirmCheck')?.checked;
+
+    } else if (step === 5) {
+      valid = false;
     }
 
     nextBtn.disabled = !valid;
   }
 
-  // Re-validate step 3 on input
-  ['inputName', 'inputEmail', 'inputPhone', 'inputNotes'].forEach(id => {
+  // Re-validate step 2 on input
+  ['inputName','inputEmail','inputPhone','inputNotes'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.addEventListener('input', () => validateStep(3));
+    if (el) el.addEventListener('input', () => validateStep(2));
   });
 
   // Re-validate step 4 on checkbox
-  const confirmCheck = document.getElementById('confirmCheck');
-  if (confirmCheck) confirmCheck.addEventListener('change', () => validateStep(4));
+  document.getElementById('confirmCheck')?.addEventListener('change', () => validateStep(4));
 
   // ─── Step 1: Service Selection ────────────────────────────
   serviceCards.forEach(card => {
@@ -191,7 +209,54 @@
     });
   });
 
-  // ─── Step 2: Calendar ─────────────────────────────────────
+  // ─── Step 2: Payment Selection ────────────────────────────
+  paymentCards.forEach(card => {
+    card.addEventListener('click', function () {
+      paymentCards.forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+
+      const method = this.dataset.payment;
+      state.selectedPayment = method;
+
+      const accountReveal = document.getElementById('accountReveal');
+      const accountNumber = document.getElementById('accountNumber');
+      const accountName   = document.getElementById('accountName');
+      const accountMethod = document.getElementById('accountMethod');
+
+      if (accountReveal) {
+        accountNumber.textContent = this.dataset.account;
+        accountName.textContent   = this.dataset.acname;
+        accountMethod.textContent = method;
+        accountReveal.classList.add('visible');
+      }
+
+      validateStep(2);
+    });
+  });
+
+  // Copy button
+  // BUG FIX #4: original code set innerHTML to a plain string on copy and
+  // on reset, which permanently destroyed the id="pabCopyIcon" and
+  // id="pabCopyText" child elements. Fixed by targeting only the text content
+  // of those existing child elements instead of rebuilding the whole button.
+  document.getElementById('copyAccountBtn')?.addEventListener('click', function () {
+    const number = document.getElementById('accountNumber')?.textContent;
+    if (!number) return;
+    navigator.clipboard.writeText(number).then(() => {
+      const icon = document.getElementById('pabCopyIcon');
+      const text = document.getElementById('pabCopyText');
+      if (icon) { icon.classList.remove('fa-regular', 'fa-copy'); icon.classList.add('fa-solid', 'fa-check'); }
+      if (text) text.textContent = 'Copied!';
+      this.classList.add('copied');
+      setTimeout(() => {
+        if (icon) { icon.classList.remove('fa-solid', 'fa-check'); icon.classList.add('fa-regular', 'fa-copy'); }
+        if (text) text.textContent = 'Copy';
+        this.classList.remove('copied');
+      }, 2000);
+    });
+  });
+
+  // ─── Step 3: Calendar ─────────────────────────────────────
   const MONTHS = [
     'January','February','March','April','May','June',
     'July','August','September','October','November','December'
@@ -204,12 +269,11 @@
     calLabel.textContent = MONTHS[month] + ' ' + year;
     calDays.innerHTML = '';
 
-    const firstDay  = new Date(year, month, 1).getDay();
+    const firstDay    = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const today = new Date();
+    const today       = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Empty cells before first day
     for (let i = 0; i < firstDay; i++) {
       const empty = document.createElement('div');
       empty.classList.add('cal-day', 'empty');
@@ -224,82 +288,98 @@
       btn.classList.add('cal-day');
       btn.textContent = d;
 
-      if (date < today) {
-        btn.classList.add('disabled');
-      }
-
-      if (
-        state.selectedDate &&
-        date.toDateString() === state.selectedDate.toDateString()
-      ) {
+      if (date < today) btn.classList.add('disabled');
+      if (state.selectedDate && date.toDateString() === state.selectedDate.toDateString())
         btn.classList.add('selected');
-      }
-
-      if (date.toDateString() === today.toDateString()) {
+      if (date.toDateString() === today.toDateString())
         btn.classList.add('today');
-      }
 
       btn.addEventListener('click', function () {
         state.selectedDate = date;
         renderCalendar();
-        validateStep(2);
+        validateStep(3);
       });
 
       calDays.appendChild(btn);
     }
   }
 
-  calPrev.addEventListener('click', function () {
+  // BUG FIX #7: prevent navigating to past months — calPrev is disabled when
+  // already on the current month so users cannot browse into the past.
+  calPrev.addEventListener('click', () => {
+    const now = new Date();
+    if (state.calYear === now.getFullYear() && state.calMonth === now.getMonth()) return;
     state.calMonth--;
-    if (state.calMonth < 0) {
-      state.calMonth = 11;
-      state.calYear--;
-    }
+    if (state.calMonth < 0) { state.calMonth = 11; state.calYear--; }
     renderCalendar();
   });
 
-  calNext.addEventListener('click', function () {
+  calNext.addEventListener('click', () => {
     state.calMonth++;
-    if (state.calMonth > 11) {
-      state.calMonth = 0;
-      state.calYear++;
-    }
+    if (state.calMonth > 11) { state.calMonth = 0; state.calYear++; }
     renderCalendar();
   });
 
-  // ─── Step 2: Time Slots ───────────────────────────────────
+  // ─── Step 3: Time Slots ───────────────────────────────────
   timeslots.forEach(slot => {
     slot.addEventListener('click', function () {
       timeslots.forEach(s => s.classList.remove('selected'));
       this.classList.add('selected');
       state.selectedTime = this.dataset.time;
-      validateStep(2);
+      validateStep(3);
     });
   });
 
-  // ─── Step 4: Populate Confirm Card ───────────────────────
+  // ─── Step 4: Populate Confirm ─────────────────────────────
   function populateConfirm() {
     const dateStr = state.selectedDate
       ? state.selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
       : '—';
 
-    document.getElementById('confirm-service').textContent = state.selectedService || '—';
-    document.getElementById('confirm-date').textContent    = dateStr;
-    document.getElementById('confirm-time').textContent    = state.selectedTime || '—';
-    document.getElementById('confirm-name').textContent    = document.getElementById('inputName')?.value.trim() || '—';
-    document.getElementById('confirm-phone').textContent   = document.getElementById('inputPhone')?.value.trim() || '—';
+    document.getElementById('confirm-service').textContent  = state.selectedService  || '—';
+    document.getElementById('confirm-date').textContent     = dateStr;
+    document.getElementById('confirm-time').textContent     = state.selectedTime     || '—';
+    document.getElementById('confirm-name').textContent     = document.getElementById('inputName')?.value.trim()  || '—';
+    document.getElementById('confirm-phone').textContent    = document.getElementById('inputPhone')?.value.trim() || '—';
+    document.getElementById('confirm-payment').textContent  = state.selectedPayment  || '—';
   }
 
-  // ─── Step 4: Confirm Submission ───────────────────────────
-  function handleConfirm() {
-    nextBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Booking Confirmed!';
-    nextBtn.disabled  = true;
-    nextBtn.style.background = '#16a085';
+  // ─── Step 5: Call Us & Confirm Submission ─────────────────
+  document.getElementById('callUsBtn')?.addEventListener('click', function () {
+    handleConfirm();
+  });
 
-    setTimeout(() => {
-      closeModal();
-      nextBtn.style.background = '';
-    }, 2200);
+  function handleConfirm() {
+    const modal = document.getElementById('bookingModal');
+
+    // BUG FIX #5 & #7 (race condition): cancel any timers from a previous
+    // incomplete flow before starting a new one.
+    if (congratsTimer1 !== null) { clearTimeout(congratsTimer1); congratsTimer1 = null; }
+    if (congratsTimer2 !== null) { clearTimeout(congratsTimer2); congratsTimer2 = null; }
+    const stale = modal?.querySelector('.congrats-overlay');
+    if (stale) modal.removeChild(stale);
+
+    const congrats = document.createElement('div');
+    congrats.className = 'congrats-overlay';
+    congrats.innerHTML = `
+      <div class="congrats-icon"><i class="fa-solid fa-circle-check"></i></div>
+      <span class="congrats-title">You're All Set!</span>
+      <span class="congrats-sub">We look forward to seeing you. Take care of that smile!</span>
+    `;
+    // BUG FIX #7: removed the redundant modal.style.position = 'relative'
+    // line — the modal already has position: relative in style.css (line 1170).
+    modal.appendChild(congrats);
+
+    congratsTimer1 = setTimeout(() => {
+      congratsTimer1 = null;
+      congrats.classList.add('fade-out');
+      congratsTimer2 = setTimeout(() => {
+        congratsTimer2 = null;
+        closeModal();
+        // Guard: only remove if still a child (user may have closed modal early)
+        if (modal.contains(congrats)) modal.removeChild(congrats);
+      }, 400);
+    }, 3000);
   }
 
 })();
