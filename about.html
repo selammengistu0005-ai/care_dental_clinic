@@ -266,17 +266,14 @@
 
   </footer>
 
-<!-- BOOKING MODAL OVERLAY -->
 <div class="booking-overlay" id="bookingOverlay">
 
   <div class="booking-modal" id="bookingModal">
 
-    <!-- Close Button -->
     <button class="booking-close" id="bookingClose" aria-label="Close">
       <i class="fa-solid fa-xmark"></i>
     </button>
 
-    <!-- LEFT: Step Progress Panel -->
     <div class="booking-stepper">
       <div class="booking-stepper-inner">
 
@@ -293,8 +290,8 @@
         <div class="booking-step" data-step="2">
           <div class="step-circle">2</div>
           <div class="step-info">
-            <span class="step-title">Date & Time</span>
-            <span class="step-desc">Pick a slot</span>
+            <span class="step-title">Your Information</span>
+            <span class="step-desc">Personal details</span>
           </div>
         </div>
 
@@ -303,8 +300,8 @@
         <div class="booking-step" data-step="3">
           <div class="step-circle">3</div>
           <div class="step-info">
-            <span class="step-title">Your Information</span>
-            <span class="step-desc">Personal details</span>
+            <span class="step-title">Date &amp; Time</span>
+            <span class="step-desc">Pick a slot</span>
           </div>
         </div>
 
@@ -318,13 +315,21 @@
           </div>
         </div>
 
+        <div class="step-connector"></div>
+
+        <div class="booking-step" data-step="5">
+          <div class="step-circle">5</div>
+          <div class="step-info">
+            <span class="step-title">Call Us</span>
+            <span class="step-desc">Confirm by phone</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- RIGHT: Main Content Area -->
     <div class="booking-content">
 
-      <!-- Step 1: Choose Service -->
       <div class="booking-panel active" id="panel-1">
         <div class="panel-header">
           <h2 class="panel-title">Choose a Service</h2>
@@ -389,8 +394,126 @@
         </div>
       </div>
 
-      <!-- Step 2: Date & Time -->
       <div class="booking-panel" id="panel-2">
+        <div class="panel-header">
+          <h2 class="panel-title">Your Information & Payment</h2>
+          <p class="panel-subtitle">Fill in your details and select a payment method</p>
+        </div>
+
+        <div class="booking-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-input" id="inputName" placeholder="e.g. John Doe" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" id="inputEmail" placeholder="e.g. john@email.com" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-input" id="inputPhone" placeholder="e.g. +251 912 345 678" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Optional Notes</label>
+              <input type="text" class="form-input" id="inputNotes" placeholder="Any concerns or requests?" />
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-section">
+          <div class="payment-section-header">
+            <span class="payment-section-title">Select Payment Method</span>
+            <span class="payment-section-sub">Choose how you'd like to pay for your appointment</span>
+          </div>
+
+          <div class="payment-grid">
+
+            <div class="payment-card" data-payment="Telebirr" data-account="1234 5678 9012" data-acname="Care Dental Clinic">
+              <div class="payment-card-inner">
+                <div class="payment-icon-wrap">
+                  <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+                <span class="payment-name">Telebirr</span>
+              </div>
+            </div>
+
+            <div class="payment-card" data-payment="Awash Bank" data-account="0123 4567 8901 2345" data-acname="Care Dental Clinic">
+              <div class="payment-card-inner">
+                <div class="payment-icon-wrap">
+                  <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <span class="payment-name">Awash Bank</span>
+              </div>
+            </div>
+
+            <div class="payment-card" data-payment="CBE Birr" data-account="1000 2345 6789 0123" data-acname="Care Dental Clinic">
+              <div class="payment-card-inner">
+                <div class="payment-icon-wrap">
+                  <i class="fa-solid fa-landmark"></i>
+                </div>
+                <span class="payment-name">CBE Birr</span>
+              </div>
+            </div>
+
+            <div class="payment-card" data-payment="Zemen Bank" data-account="2345 6789 0123 4567" data-acname="Care Dental Clinic">
+              <div class="payment-card-inner">
+                <div class="payment-icon-wrap">
+                  <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <span class="payment-name">Zemen Bank</span>
+              </div>
+            </div>
+
+            <div class="payment-card" data-payment="Tsedey Bank" data-account="3456 7890 1234 5678" data-acname="Care Dental Clinic">
+              <div class="payment-card-inner">
+                <div class="payment-icon-wrap">
+                  <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <span class="payment-name">Tsedey Bank</span>
+              </div>
+            </div>
+
+            <div class="payment-card" data-payment="Dashen Bank" data-account="4567 8901 2345 6789" data-acname="Care Dental Clinic">
+              <div class="payment-card-inner">
+                <div class="payment-icon-wrap">
+                  <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <span class="payment-name">Dashen Bank</span>
+              </div>
+            </div>
+
+            <div class="payment-card" data-payment="Wegagen Bank" data-account="5678 9012 3456 7890" data-acname="Care Dental Clinic">
+              <div class="payment-card-inner">
+                <div class="payment-icon-wrap">
+                  <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <span class="payment-name">Wegagen Bank</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="payment-account-box" id="accountReveal">
+            <div class="pab-left">
+              <span class="pab-method" id="accountMethod">—</span>
+              <span class="pab-label">Account Name</span>
+              <span class="pab-acname" id="accountName">—</span>
+              <span class="pab-label">Account Number</span>
+              <span class="pab-number" id="accountNumber">—</span>
+            </div>
+            <button class="pab-copy-btn" id="copyAccountBtn" title="Copy account number">
+              <i class="fa-regular fa-copy" id="pabCopyIcon"></i>
+              <span id="pabCopyText">Copy</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="booking-panel" id="panel-3">
         <div class="panel-header">
           <h2 class="panel-title">Date & Time</h2>
           <p class="panel-subtitle">Choose a date and available time slot</p>
@@ -432,37 +555,6 @@
         </div>
       </div>
 
-      <!-- Step 3: Your Information -->
-      <div class="booking-panel" id="panel-3">
-        <div class="panel-header">
-          <h2 class="panel-title">Your Information</h2>
-          <p class="panel-subtitle">We'll use these details for your appointment</p>
-        </div>
-        <div class="booking-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Full Name</label>
-              <input type="text" class="form-input" id="inputName" placeholder="e.g. John Doe" />
-            </div>
-            <div class="form-group">
-              <label class="form-label">Email Address</label>
-              <input type="email" class="form-input" id="inputEmail" placeholder="e.g. john@email.com" />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Phone Number</label>
-              <input type="tel" class="form-input" id="inputPhone" placeholder="e.g. +1 (555) 000-0000" />
-            </div>
-            <div class="form-group">
-              <label class="form-label">Optional Notes</label>
-              <input type="text" class="form-input" id="inputNotes" placeholder="Any concerns or requests?" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 4: Confirm Booking -->
       <div class="booking-panel" id="panel-4">
         <div class="panel-header">
           <h2 class="panel-title">Confirm Booking</h2>
@@ -478,27 +570,33 @@
           <div class="confirm-row"><span class="confirm-label">Patient</span><span class="confirm-value" id="confirm-name">—</span></div>
           <div class="confirm-divider"></div>
           <div class="confirm-row"><span class="confirm-label">Phone</span><span class="confirm-value" id="confirm-phone">—</span></div>
+          <div class="confirm-divider"></div>
+          <div class="confirm-row"><span class="confirm-label">Payment</span><span class="confirm-value" id="confirm-payment">—</span></div>
         </div>
         <label class="confirm-check-wrap">
           <input type="checkbox" id="confirmCheck" />
           <span class="confirm-check-label">I confirm all information is correct.</span>
         </label>
       </div>
-      <div class="confirm-notice">
-        <div class="confirm-notice-icon">
-            <i class="fa-solid fa-phone-volume"></i>
-        </div>
-        <div class="confirm-notice-body">
-            <span class="confirm-notice-title">After you finish - please call us to confirm</span>
-            <span class="confirm-notice-text">
-                To ensure your appointment is secured and confirmed, please call us at 
-                <strong>+1 (555) 012-3456</strong> after submitting. Our team will verify 
-                your details and lock in your slot.
-            </span>
-        </div>
-    </div>
 
-      <!-- Footer: Navigation Buttons -->
+      <div class="booking-panel" id="panel-5">
+        <div class="call-us-panel">
+          <div class="call-us-icon-wrap">
+            <i class="fa-solid fa-phone-volume"></i>
+          </div>
+          <h2 class="call-us-title">One Last Step!</h2>
+          <p class="call-us-subtitle">Please call us to confirm your appointment</p>
+          <div class="call-us-number">
+            <i class="fa-solid fa-phone"></i>
+            <span>+1 (555) 012-3456</span>
+          </div>
+          <p class="call-us-hint">Call the number above so our team can verify your details and lock in your slot.</p>
+          <button class="call-us-btn" id="callUsBtn">
+            <i class="fa-solid fa-phone"></i> I Will Call
+          </button>
+        </div>
+      </div>
+
       <div class="booking-footer">
         <button class="booking-back-btn" id="bookingBack">
           <i class="fa-solid fa-arrow-left"></i> Back
@@ -509,10 +607,7 @@
       </div>
 
     </div>
-    <!-- end booking-content -->
-
   </div>
-  <!-- end booking-modal -->
 
 </div>
 <script src="booking.js"></script>
