@@ -219,5 +219,257 @@
 
   </footer>
 
+
+<!-- BOOKING MODAL OVERLAY -->
+<div class="booking-overlay" id="bookingOverlay">
+
+  <div class="booking-modal" id="bookingModal">
+
+    <!-- Close Button -->
+    <button class="booking-close" id="bookingClose" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <!-- LEFT: Step Progress Panel -->
+    <div class="booking-stepper">
+      <div class="booking-stepper-inner">
+
+        <div class="booking-step active" data-step="1">
+          <div class="step-circle">1</div>
+          <div class="step-info">
+            <span class="step-title">Choose Service</span>
+            <span class="step-desc">Select your service</span>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <div class="booking-step" data-step="2">
+          <div class="step-circle">2</div>
+          <div class="step-info">
+            <span class="step-title">Date & Time</span>
+            <span class="step-desc">Pick a slot</span>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <div class="booking-step" data-step="3">
+          <div class="step-circle">3</div>
+          <div class="step-info">
+            <span class="step-title">Your Information</span>
+            <span class="step-desc">Personal details</span>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <div class="booking-step" data-step="4">
+          <div class="step-circle">4</div>
+          <div class="step-info">
+            <span class="step-title">Confirm Booking</span>
+            <span class="step-desc">Review & confirm</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: Main Content Area -->
+    <div class="booking-content">
+
+      <!-- Step 1: Choose Service -->
+      <div class="booking-panel active" id="panel-1">
+        <div class="panel-header">
+          <h2 class="panel-title">Choose a Service</h2>
+          <p class="panel-subtitle">Select the treatment you'd like to book</p>
+        </div>
+        <div class="services-grid">
+
+          <div class="booking-service-card" data-service="Teeth Whitening">
+            <div class="bsc-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <div class="bsc-body">
+              <span class="bsc-name">Teeth Whitening</span>
+              <span class="bsc-desc">Professional brightening treatment</span>
+              <span class="bsc-duration"><i class="fa-regular fa-clock"></i> 60 min</span>
+            </div>
+          </div>
+
+          <div class="booking-service-card" data-service="Dental Implants">
+            <div class="bsc-icon"><i class="fa-solid fa-tooth"></i></div>
+            <div class="bsc-body">
+              <span class="bsc-name">Dental Implants</span>
+              <span class="bsc-desc">Permanent natural-looking replacements</span>
+              <span class="bsc-duration"><i class="fa-regular fa-clock"></i> 90 min</span>
+            </div>
+          </div>
+
+          <div class="booking-service-card" data-service="Preventive Care">
+            <div class="bsc-icon"><i class="fa-solid fa-shield-heart"></i></div>
+            <div class="bsc-body">
+              <span class="bsc-name">Preventive Care</span>
+              <span class="bsc-desc">Routine checkup & cleaning</span>
+              <span class="bsc-duration"><i class="fa-regular fa-clock"></i> 45 min</span>
+            </div>
+          </div>
+
+          <div class="booking-service-card" data-service="Smile Makeover">
+            <div class="bsc-icon"><i class="fa-solid fa-face-smile"></i></div>
+            <div class="bsc-body">
+              <span class="bsc-name">Smile Makeover</span>
+              <span class="bsc-desc">Personalised combination of treatments</span>
+              <span class="bsc-duration"><i class="fa-regular fa-clock"></i> 120 min</span>
+            </div>
+          </div>
+
+          <div class="booking-service-card" data-service="Orthodontics">
+            <div class="bsc-icon"><i class="fa-solid fa-teeth"></i></div>
+            <div class="bsc-body">
+              <span class="bsc-name">Orthodontics</span>
+              <span class="bsc-desc">Braces, aligners & bite correction</span>
+              <span class="bsc-duration"><i class="fa-regular fa-clock"></i> 60 min</span>
+            </div>
+          </div>
+
+          <div class="booking-service-card" data-service="Dental Surgery">
+            <div class="bsc-icon"><i class="fa-solid fa-syringe"></i></div>
+            <div class="bsc-body">
+              <span class="bsc-name">Dental Surgery</span>
+              <span class="bsc-desc">Extractions & surgical procedures</span>
+              <span class="bsc-duration"><i class="fa-regular fa-clock"></i> 75 min</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Step 2: Date & Time -->
+      <div class="booking-panel" id="panel-2">
+        <div class="panel-header">
+          <h2 class="panel-title">Date & Time</h2>
+          <p class="panel-subtitle">Choose a date and available time slot</p>
+        </div>
+        <div class="datetime-layout">
+
+          <div class="calendar-wrap">
+            <div class="calendar-nav">
+              <button class="cal-nav-btn" id="calPrev"><i class="fa-solid fa-chevron-left"></i></button>
+              <span class="cal-month-label" id="calMonthLabel"></span>
+              <button class="cal-nav-btn" id="calNext"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="calendar-grid">
+              <div class="cal-day-name">Su</div>
+              <div class="cal-day-name">Mo</div>
+              <div class="cal-day-name">Tu</div>
+              <div class="cal-day-name">We</div>
+              <div class="cal-day-name">Th</div>
+              <div class="cal-day-name">Fr</div>
+              <div class="cal-day-name">Sa</div>
+            </div>
+            <div class="calendar-days" id="calendarDays"></div>
+          </div>
+
+          <div class="timeslots-wrap">
+            <h4 class="timeslots-label">Available Times</h4>
+            <div class="timeslots-grid" id="timeslotsGrid">
+              <button class="timeslot" data-time="09:00 AM">09:00 AM</button>
+              <button class="timeslot" data-time="10:00 AM">10:00 AM</button>
+              <button class="timeslot" data-time="11:00 AM">11:00 AM</button>
+              <button class="timeslot" data-time="12:00 PM">12:00 PM</button>
+              <button class="timeslot" data-time="02:00 PM">02:00 PM</button>
+              <button class="timeslot" data-time="03:00 PM">03:00 PM</button>
+              <button class="timeslot" data-time="04:00 PM">04:00 PM</button>
+              <button class="timeslot" data-time="05:00 PM">05:00 PM</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Step 3: Your Information -->
+      <div class="booking-panel" id="panel-3">
+        <div class="panel-header">
+          <h2 class="panel-title">Your Information</h2>
+          <p class="panel-subtitle">We'll use these details for your appointment</p>
+        </div>
+        <div class="booking-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-input" id="inputName" placeholder="e.g. John Doe" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" id="inputEmail" placeholder="e.g. john@email.com" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-input" id="inputPhone" placeholder="e.g. +1 (555) 000-0000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Optional Notes</label>
+              <input type="text" class="form-input" id="inputNotes" placeholder="Any concerns or requests?" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Confirm Booking -->
+      <div class="booking-panel" id="panel-4">
+        <div class="panel-header">
+          <h2 class="panel-title">Confirm Booking</h2>
+          <p class="panel-subtitle">Review your appointment details before confirming</p>
+        </div>
+        <div class="confirm-card">
+          <div class="confirm-row"><span class="confirm-label">Service</span><span class="confirm-value" id="confirm-service">—</span></div>
+          <div class="confirm-divider"></div>
+          <div class="confirm-row"><span class="confirm-label">Date</span><span class="confirm-value" id="confirm-date">—</span></div>
+          <div class="confirm-divider"></div>
+          <div class="confirm-row"><span class="confirm-label">Time</span><span class="confirm-value" id="confirm-time">—</span></div>
+          <div class="confirm-divider"></div>
+          <div class="confirm-row"><span class="confirm-label">Patient</span><span class="confirm-value" id="confirm-name">—</span></div>
+          <div class="confirm-divider"></div>
+          <div class="confirm-row"><span class="confirm-label">Phone</span><span class="confirm-value" id="confirm-phone">—</span></div>
+        </div>
+        <label class="confirm-check-wrap">
+          <input type="checkbox" id="confirmCheck" />
+          <span class="confirm-check-label">I confirm all information is correct.</span>
+        </label>
+      </div>
+      <div class="confirm-notice">
+        <div class="confirm-notice-icon">
+            <i class="fa-solid fa-phone-volume"></i>
+        </div>
+        <div class="confirm-notice-body">
+            <span class="confirm-notice-title">After you finish - please call us to confirm</span>
+            <span class="confirm-notice-text">
+                To ensure your appointment is secured and confirmed, please call us at 
+                <strong>+1 (555) 012-3456</strong> after submitting. Our team will verify 
+                your details and lock in your slot.
+            </span>
+        </div>
+    </div>
+
+      <!-- Footer: Navigation Buttons -->
+      <div class="booking-footer">
+        <button class="booking-back-btn" id="bookingBack">
+          <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+        <button class="booking-next-btn" id="bookingNext">
+          Next: Choose Date &amp; Time <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+    </div>
+    <!-- end booking-content -->
+
+  </div>
+  <!-- end booking-modal -->
+
+</div>
+<script src="booking.js"></script>
+
 </body>
 </html>
