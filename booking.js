@@ -130,7 +130,7 @@
       c.innerHTML = '<i class="fa-solid fa-check" style="font-size:0.7rem"></i>';
     });
     document.querySelectorAll('.booking-step:not(.completed) .step-circle').forEach(c => {
-      c.innerHTML = parseInt(c.closest('.booking-step').dataset.step);
+      c.innerHTML = c.closest('.booking-step').dataset.step;
     });
 
     backBtn.classList.toggle('hidden', step === 1);
