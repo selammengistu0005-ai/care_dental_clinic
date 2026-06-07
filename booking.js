@@ -386,12 +386,11 @@ function handleConfirm() {
       ? state.selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
       : '—';
 
-    addDoc(collection(db, 'bookings'), {
-      name:      document.getElementById('inputName')?.value.trim() || '—',
-      service:   state.selectedService  || '—',
-      date:      dateStr,
-      time:      state.selectedTime     || '—',
-      createdAt: new Date(),
+    addDoc(collection(db, 'agents', 'care-dental', 'logs'), {
+      question:  document.getElementById('inputName')?.value.trim() || '—',
+      answer:    `Service: ${state.selectedService || '—'} · Date: ${dateStr} · Time: ${state.selectedTime || '—'}`,
+      category:  'Booking',
+      timestamp: new Date(),
     }).catch(err => console.error('Firestore write failed:', err));
 
     if (congratsTimer1 !== null) { clearTimeout(congratsTimer1); congratsTimer1 = null; }
