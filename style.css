@@ -2190,3 +2190,931 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   CARE DENTAL CLINIC — RESPONSIVE STYLES
+   Breakpoint: max-width 768px
+   Covers: Shared, Home (index), Services, About, Booking Modal
+   ============================================================ */
+
+@media (max-width: 48em) {
+
+  /* ============================================================
+     SHARED — NAVBAR
+     ============================================================ */
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .nav-container {
+    padding: 0 1.25rem;
+    height: 3.75rem;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-right {
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  /* Hide the CTA label text on small screens, keep icon only */
+  .cta-nav .cta-label {
+    display: none;
+  }
+
+  .cta-nav {
+    padding: 0.5rem 0.875rem;
+    gap: 0;
+    font-size: 0.75rem;
+  }
+
+  .cta-nav .cta-icon-left {
+    font-size: 0.95rem;
+  }
+
+  .cta-nav .cta-icon-right {
+    display: none;
+  }
+
+  .nav-logo img {
+    height: 2.25rem;
+  }
+
+
+  /* ============================================================
+     SHARED — FOOTER
+     ============================================================ */
+
+  .footer {
+    padding: 3rem 1.5rem 0;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+  }
+
+  .footer-logo {
+    height: 2.5rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.875rem;
+  }
+
+  .footer-heading {
+    font-size: 0.7rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-list li {
+    font-size: 0.8rem;
+    gap: 0.5rem;
+  }
+
+  .footer-list {
+    gap: 0.75rem;
+  }
+
+  .footer-bottom {
+    padding: 1.25rem 0;
+  }
+
+  .footer-bottom p {
+    font-size: 0.75rem;
+  }
+
+
+  /* ============================================================
+     SHARED — BUTTONS & CTA SECTION
+     ============================================================ */
+
+  .btn-primary,
+  .btn-secondary {
+    font-size: 0.8rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .cta-wrap {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .cta-book:not(.cta-nav) {
+    font-size: 0.875rem;
+    padding: 0.9rem 2rem;
+    gap: 0.65rem;
+  }
+
+  .cta-icon-left {
+    font-size: 0.95rem;
+  }
+
+  .cta-icon-right {
+    font-size: 0.8rem;
+  }
+
+
+  /* ============================================================
+     SHARED — BOOKING MODAL
+     ============================================================ */
+
+  .booking-overlay {
+    padding: 0.75rem;
+    align-items: flex-end;
+  }
+
+  .booking-modal {
+    width: 100%;
+    max-width: 100%;
+    max-height: 92vh;
+    flex-direction: column;
+    border-radius: 1.25rem 1.25rem 0 0;
+  }
+
+  /* Hide the left stepper sidebar — replace with compact top bar */
+  .booking-stepper {
+    width: 100%;
+    border-right: none;
+    border-bottom: 0.0625rem solid #e8eef2;
+    padding: 0.875rem 1.25rem;
+    background: #f5f7f8;
+  }
+
+  .booking-stepper-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .booking-step {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .step-info {
+    display: none;
+  }
+
+  .step-circle {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.72rem;
+  }
+
+  .step-connector {
+    width: 2rem;
+    height: 0.0625rem;
+    margin: 0 0.1rem;
+    background: #e0e8ee;
+  }
+
+  .booking-content {
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .booking-panel {
+    padding: 1.25rem 1.25rem 0.75rem;
+    gap: 1.25rem;
+  }
+
+  .panel-title {
+    font-size: 1.25rem;
+  }
+
+  .panel-subtitle {
+    font-size: 0.8rem;
+  }
+
+  /* Step 1 — service cards */
+  .services-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .booking-service-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 1rem;
+    border-radius: 0.875rem;
+  }
+
+  .bsc-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .bsc-icon i {
+    font-size: 0.9rem;
+  }
+
+  .bsc-name {
+    font-size: 0.82rem;
+  }
+
+  .bsc-desc {
+    font-size: 0.7rem;
+  }
+
+  .bsc-duration {
+    font-size: 0.65rem;
+  }
+
+  /* Step 2 — form & payment */
+  .booking-form {
+    gap: 1rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .form-input {
+    height: 2.875rem;
+    font-size: 0.85rem;
+  }
+
+  .form-label {
+    font-size: 0.7rem;
+  }
+
+  .payment-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.625rem;
+  }
+
+  .payment-card {
+    padding: 0.75rem 0.5rem;
+    border-radius: 0.75rem;
+  }
+
+  .payment-icon-wrap {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+
+  .payment-icon-wrap i {
+    font-size: 0.8rem;
+  }
+
+  .payment-name {
+    font-size: 0.65rem;
+  }
+
+  .payment-account-box {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .pab-number {
+    font-size: 0.875rem;
+  }
+
+  .pab-copy-btn {
+    align-self: flex-end;
+    padding: 0.5rem 1rem;
+    font-size: 0.72rem;
+  }
+
+  /* Step 3 — calendar & timeslots */
+  .datetime-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .calendar-wrap {
+    gap: 0.75rem;
+  }
+
+  .cal-month-label {
+    font-size: 0.9rem;
+  }
+
+  .cal-nav-btn {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.7rem;
+  }
+
+  .cal-day-name {
+    font-size: 0.65rem;
+  }
+
+  .cal-day {
+    font-size: 0.72rem;
+  }
+
+  .timeslots-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+
+  .timeslot {
+    padding: 0.625rem 0.5rem;
+    font-size: 0.72rem;
+    border-radius: 0.5rem;
+  }
+
+  .timeslots-label {
+    font-size: 0.9rem;
+  }
+
+  /* Step 4 — confirm */
+  .confirm-card {
+    padding: 1.25rem 1.25rem;
+    border-radius: 0.875rem;
+  }
+
+  .confirm-row {
+    padding: 0.7rem 0;
+  }
+
+  .confirm-label {
+    font-size: 0.7rem;
+  }
+
+  .confirm-value {
+    font-size: 0.875rem;
+  }
+
+  .confirm-check-label {
+    font-size: 0.8rem;
+  }
+
+  .confirm-notice {
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+    border-radius: 0.75rem;
+  }
+
+  .confirm-notice-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .confirm-notice-title {
+    font-size: 0.775rem;
+  }
+
+  .confirm-notice-text {
+    font-size: 0.725rem;
+  }
+
+  /* Step 5 — upload */
+  .upload-panel {
+    padding: 1.5rem 1rem;
+    gap: 0.875rem;
+  }
+
+  .upload-icon-wrap {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .upload-icon-wrap i {
+    font-size: 1.3rem;
+  }
+
+  .upload-title {
+    font-size: 1.2rem;
+  }
+
+  .upload-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .upload-trigger {
+    padding: 0.75rem 1.75rem;
+    font-size: 0.82rem;
+  }
+
+  /* Booking footer nav */
+  .booking-footer {
+    padding: 1rem 1.25rem 1.25rem;
+    gap: 0.75rem;
+  }
+
+  .booking-back-btn {
+    padding: 0.625rem 1.125rem;
+    font-size: 0.8rem;
+  }
+
+  .booking-next-btn {
+    height: 3rem;
+    padding: 0 1.75rem;
+    font-size: 0.82rem;
+  }
+
+  /* Congrats overlay */
+  .congrats-icon {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .congrats-icon i {
+    font-size: 2rem;
+  }
+
+  .congrats-title {
+    font-size: 1.3rem;
+  }
+
+  .congrats-sub {
+    font-size: 0.8rem;
+  }
+
+
+  /* ============================================================
+     FOR HOME (index.html)
+     ============================================================ */
+
+  /* Hero */
+  .hero {
+    flex-direction: column;
+    min-height: auto;
+    padding-top: 3.75rem;
+  }
+
+  .hero-text {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    padding: 2.5rem 1.5rem 1.75rem;
+    text-align: left;
+  }
+
+  .hero-tagline {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.875rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.75rem, 6.5vw, 2.5rem);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .hero-description {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    max-width: 100%;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero-image-wrap {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    height: 52vw;
+    min-height: 14rem;
+  }
+
+  .hero-image-fade {
+    background: linear-gradient(
+      to bottom,
+      var(--white) 0%,
+      rgba(255, 255, 255, 0.25) 18%,
+      transparent 55%
+    );
+  }
+
+  /* Services strip */
+  .services-strip {
+    padding: 2.5rem 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .services-wrapper {
+    padding: 1.75rem 1.25rem;
+    border-radius: 0.875rem;
+  }
+
+  .services-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .service-card {
+    padding: 1.25rem 1rem;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .service-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.4rem;
+  }
+
+  .service-icon i {
+    font-size: 0.95rem;
+  }
+
+  .service-title {
+    font-size: 0.875rem;
+  }
+
+  .service-desc {
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+
+  /* About section (homepage) */
+  .about {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .about-image-wrap {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    height: 52vw;
+    min-height: 14rem;
+    order: -1;
+  }
+
+  .about-image-fade {
+    background: linear-gradient(
+      to bottom,
+      transparent 35%,
+      rgba(255, 255, 255, 0.5) 70%,
+      var(--white) 100%
+    );
+  }
+
+  .about-text {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    padding: 1.75rem 1.5rem 2.5rem;
+    gap: 1rem;
+  }
+
+  .about-tagline {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+  }
+
+  .about-title {
+    font-size: clamp(1.6rem, 5.5vw, 2.4rem);
+    line-height: 1.2;
+  }
+
+  .about-description {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    max-width: 100%;
+  }
+
+
+  /* ============================================================
+     FOR SERVICES (services.html)
+     ============================================================ */
+
+  /* Page hero */
+  .page-hero {
+    padding: 6rem 1.5rem 3rem;
+    gap: 0.75rem;
+    max-width: 100%;
+  }
+
+  .page-hero-title {
+    font-size: clamp(1.75rem, 6.5vw, 2.6rem);
+    line-height: 1.2;
+  }
+
+  .page-hero-desc {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    max-width: 100%;
+  }
+
+  .section-tagline {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+  }
+
+  /* Services page grid */
+  .services-page-section {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .services-page-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .services-page-card {
+    padding: 1.375rem 1.25rem;
+    gap: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .services-page-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .services-page-icon i {
+    font-size: 1rem;
+  }
+
+  .services-page-title {
+    font-size: 1rem;
+  }
+
+  .services-page-text {
+    font-size: 0.825rem;
+    line-height: 1.65;
+  }
+
+  /* Why choose us */
+  .why-section {
+    padding: 2.5rem 1.25rem;
+    margin-top: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .why-container {
+    gap: 2rem;
+  }
+
+  .why-header {
+    gap: 0.5rem;
+  }
+
+  .why-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .why-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 1.375rem 1.125rem;
+    border-radius: 0.75rem;
+  }
+
+  .why-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .why-icon i {
+    font-size: 1rem;
+  }
+
+  .why-title {
+    font-size: 0.95rem;
+  }
+
+  .why-text {
+    font-size: 0.8rem;
+    line-height: 1.65;
+  }
+
+
+  /* ============================================================
+     FOR ABOUT (about.html)
+     ============================================================ */
+
+  /* About details section */
+  .about-details {
+    flex-direction: column;
+    padding: 5.5rem 1.5rem 2.5rem;
+    gap: 2rem;
+  }
+
+  .about-details-left {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    gap: 1.25rem;
+  }
+
+  .about-tagline {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+  }
+
+  .about-details-title {
+    font-size: clamp(1.6rem, 5.5vw, 2.6rem);
+    line-height: 1.2;
+  }
+
+  .about-details-desc {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    max-width: 100%;
+  }
+
+  /* Stats row */
+  .about-stats {
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+  .about-stat {
+    min-width: unset;
+    width: 100%;
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+    border-radius: 0.625rem;
+  }
+
+  .about-stat-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.4rem;
+  }
+
+  .about-stat-icon i {
+    font-size: 0.9rem;
+  }
+
+  .about-stat-number {
+    font-size: 1.15rem;
+  }
+
+  .about-stat-label {
+    font-size: 0.7rem;
+  }
+
+  /* Mission & Vision cards */
+  .about-details-right {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    gap: 1.25rem;
+  }
+
+  .glass-card {
+    padding: 1.5rem 1.25rem;
+    border-radius: 1rem;
+    gap: 0.875rem;
+  }
+
+  .glass-card-header {
+    gap: 0.75rem;
+  }
+
+  .glass-card-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .glass-card-icon i {
+    font-size: 0.95rem;
+  }
+
+  .glass-card-title {
+    font-size: 1rem;
+  }
+
+  .glass-card-text {
+    font-size: 0.845rem;
+    line-height: 1.7;
+  }
+
+  /* Core values */
+  .values-section {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .values-container {
+    gap: 2rem;
+  }
+
+  .values-header {
+    gap: 0.5rem;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .value-card {
+    padding: 1.5rem 1.125rem;
+    gap: 0.875rem;
+    border-radius: 0.75rem;
+  }
+
+  .value-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .value-icon i {
+    font-size: 1rem;
+  }
+
+  .value-title {
+    font-size: 0.975rem;
+  }
+
+  .value-text {
+    font-size: 0.8rem;
+    line-height: 1.65;
+  }
+
+  /* Team section */
+  .team-section {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .team-container {
+    gap: 2rem;
+  }
+
+  .team-header {
+    gap: 0.5rem;
+    max-width: 100%;
+  }
+
+  .team-intro {
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .team-card {
+    padding: 1.375rem 1rem;
+    gap: 0.75rem;
+    border-radius: 0.75rem;
+  }
+
+  .team-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.4rem;
+  }
+
+  .team-icon i {
+    font-size: 0.95rem;
+  }
+
+  .team-title {
+    font-size: 0.9rem;
+  }
+
+  .team-text {
+    font-size: 0.75rem;
+    line-height: 1.65;
+  }
+
+} /* end @media (max-width: 48em) */
