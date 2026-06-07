@@ -1,3 +1,19 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD73Uyrrl8JDP5X_yxT2Zp1fV9oIpAvpXA",
+  authDomain: "lumi-75592.firebaseapp.com",
+  projectId: "lumi-75592",
+  storageBucket: "lumi-75592.firebasestorage.app",
+  messagingSenderId: "419726897354",
+  appId: "1:419726897354:web:3b27219dd60b26dbb84433",
+  measurementId: "G-23937MS0LH"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
 (function () {
 
   // ─── State ───────────────────────────────────────────────
@@ -362,8 +378,21 @@
     handleConfirm();
   });
 
-  function handleConfirm() {
+function handleConfirm() {
     const modal = document.getElementById('bookingModal');
+
+    // ─── Save to Firestore ────────────────────────────────
+    const dateStr = state.selectedDate
+      ? state.selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+      : '—';
+
+    addDoc(collection(db, 'bookings'), {
+      name:      document.getElementById('inputName')?.value.trim() || '—',
+      service:   state.selectedService  || '—',
+      date:      dateStr,
+      time:      state.selectedTime     || '—',
+      createdAt: new Date(),
+    }).catch(err => console.error('Firestore write failed:', err));
 
     if (congratsTimer1 !== null) { clearTimeout(congratsTimer1); congratsTimer1 = null; }
     if (congratsTimer2 !== null) { clearTimeout(congratsTimer2); congratsTimer2 = null; }
