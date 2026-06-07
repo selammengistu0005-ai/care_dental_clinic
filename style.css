@@ -2233,7 +2233,9 @@ a {
 
   /* Hide the CTA label text on small screens, keep icon only */
   .cta-nav .cta-label {
-    display: none;
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
   }
 
   .cta-nav {
