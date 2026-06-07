@@ -320,8 +320,8 @@
         <div class="booking-step" data-step="5">
           <div class="step-circle">5</div>
           <div class="step-info">
-            <span class="step-title">Call Us</span>
-            <span class="step-desc">Confirm by phone</span>
+            <span class="step-title">Upload image</span>
+            <span class="step-desc">Upload the payment screenshot</span>
           </div>
         </div>
 
@@ -580,20 +580,18 @@
       </div>
 
       <div class="booking-panel" id="panel-5">
-        <div class="call-us-panel">
-          <div class="call-us-icon-wrap">
-            <i class="fa-solid fa-phone-volume"></i>
+        <div class="upload-panel">
+          <div class="upload-icon-wrap">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
           </div>
-          <h2 class="call-us-title">One Last Step!</h2>
-          <p class="call-us-subtitle">Please call us to confirm your appointment</p>
-          <div class="call-us-number">
-            <i class="fa-solid fa-phone"></i>
-            <span>+1 (555) 012-3456</span>
-          </div>
-          <p class="call-us-hint">Call the number above so our team can verify your details and lock in your slot.</p>
-          <button class="call-us-btn" id="callUsBtn">
-            <i class="fa-solid fa-phone"></i> I Will Call
-          </button>
+          <h2 class="upload-title">Upload Payment Screenshot</h2>
+          <p class="upload-subtitle">Please upload a screenshot of your payment to confirm your appointment</p>
+          <label class="upload-trigger" id="uploadTrigger">
+            <i class="fa-solid fa-image"></i>
+            <span>Choose an Image</span>
+            <input type="file" id="screenshotInput" accept="image/*" hidden />
+          </label>
+          <span class="upload-filename" id="uploadFilename">No file chosen</span>
         </div>
       </div>
 
