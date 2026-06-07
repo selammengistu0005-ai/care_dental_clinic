@@ -110,7 +110,7 @@
     1: 'Next: Your Information <i class="fa-solid fa-arrow-right"></i>',
     2: 'Next: Choose Date &amp; Time <i class="fa-solid fa-arrow-right"></i>',
     3: 'Review Booking <i class="fa-solid fa-arrow-right"></i>',
-    4: 'Next: Call Us <i class="fa-solid fa-arrow-right"></i>',
+    4: 'Next: Upload image <i class="fa-solid fa-arrow-right"></i>',
     5: '',
   };
 
@@ -344,16 +344,27 @@
     document.getElementById('confirm-payment').textContent  = state.selectedPayment  || '—';
   }
 
-  // ─── Step 5: Call Us & Confirm Submission ─────────────────
-  document.getElementById('callUsBtn')?.addEventListener('click', function () {
+// ─── Step 5: Upload Screenshot & Confirm Submission ───────
+  document.getElementById('uploadTrigger')?.addEventListener('click', () => {
+    document.getElementById('screenshotInput')?.click();
+  });
+
+  document.getElementById('screenshotInput')?.addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const filenameEl = document.getElementById('uploadFilename');
+    if (filenameEl) {
+      filenameEl.textContent = file.name;
+      filenameEl.classList.add('chosen');
+    }
+
     handleConfirm();
   });
 
   function handleConfirm() {
     const modal = document.getElementById('bookingModal');
 
-    // BUG FIX #5 & #7 (race condition): cancel any timers from a previous
-    // incomplete flow before starting a new one.
     if (congratsTimer1 !== null) { clearTimeout(congratsTimer1); congratsTimer1 = null; }
     if (congratsTimer2 !== null) { clearTimeout(congratsTimer2); congratsTimer2 = null; }
     const stale = modal?.querySelector('.congrats-overlay');
@@ -366,8 +377,6 @@
       <span class="congrats-title">You're All Set!</span>
       <span class="congrats-sub">We look forward to seeing you. Take care of that smile!</span>
     `;
-    // BUG FIX #7: removed the redundant modal.style.position = 'relative'
-    // line — the modal already has position: relative in style.css (line 1170).
     modal.appendChild(congrats);
 
     congratsTimer1 = setTimeout(() => {
@@ -376,7 +385,6 @@
       congratsTimer2 = setTimeout(() => {
         congratsTimer2 = null;
         closeModal();
-        // Guard: only remove if still a child (user may have closed modal early)
         if (modal.contains(congrats)) modal.removeChild(congrats);
       }, 400);
     }, 3000);
