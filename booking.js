@@ -105,9 +105,10 @@ const db  = getFirestore(app);
     renderCalendar();
   }
 
-  document.querySelectorAll('.btn-primary, .cta-book').forEach(btn => {
+document.querySelectorAll('.btn-primary, .cta-book').forEach(btn => {
     const text = btn.innerText.trim().toLowerCase();
-    if (text.includes('book') || text.includes('appointment')) {
+    const isCTANav = btn.classList.contains('cta-nav');
+    if (isCTANav || text.includes('book') || text.includes('appointment')) {
       btn.addEventListener('click', e => { e.preventDefault(); openModal(); });
     }
   });
